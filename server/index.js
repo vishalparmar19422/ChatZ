@@ -8,11 +8,13 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: ["http://localhost:5173" , "https://chatz-1.onrender.com/"] } });
+const io = new Server(server, {
+  cors: { origin: ["http://localhost:5173", "https://chatz-1.onrender.com/"] },
+});
 
 const rooms = new Map();
 
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors({ origin:["http://localhost:5173", "https://chatz-1.onrender.com/"] }));
 app.use(express.json());
 
 io.on("connection", (socket) => {
@@ -33,7 +35,7 @@ io.on("connection", (socket) => {
 
     // Notify others in the room
     socket.to(roomId).emit("user_joined", username);
-    
+
     // Welcome the user
     socket.emit("join_success");
   });
@@ -48,7 +50,7 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log(`User disconnected: ${socket.id}`);
-    
+
     const { username, roomId } = socket;
 
     if (roomId && rooms.has(roomId)) {
@@ -74,4 +76,3 @@ app.get("/", (req, res) => {
 server.listen(port, () => {
   console.log(`\nServer is listening at http://localhost:${port}`);
 });
-
