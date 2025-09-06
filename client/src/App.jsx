@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Toaster, toast } from "react-hot-toast";
 
 // Establishes a connection to the socket server.
-const socket = io(import.meta.VITE_API_URL);
+const socket = io(import.meta.env.VITE_API_URL);
 
 function App() {
   // State for login and UI control
